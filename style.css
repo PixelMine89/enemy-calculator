@@ -150,6 +150,8 @@ button:hover {
   font-size: 12px;
   opacity: 0.6;
 
+  margin-bottom: 10px;
+
   flex-wrap: wrap;
 }
 
@@ -187,5 +189,6 @@ button:hover {
     padding: 16px;
   }
 }
+
 
 
