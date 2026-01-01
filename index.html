@@ -2,21 +2,33 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Калькулятор защиты врагов</title>
+  <title>Enemy Power Calculator</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-  <h2>Калькулятор врагов</h2>
+<div class="app">
+  <header class="header">
+    <h1>Калькулятор защиты врагов Fomo Fighters</h1>
+    <p class="subtitle">Расчёт характеристик врагов без разведки</p>
+  </header>
 
-  <select id="race"></select>
+  <div class="card">
+    <label>Раса врага</label>
+    <select id="race"></select>
 
-  <input id="power" type="number" placeholder="Введите мощь">
+    <label>Мощь врага</label>
+    <input id="power" type="number" placeholder="Например: 1000">
 
-  <button onclick="calculate()">Рассчитать</button>
+    <button onclick="calculate()">Рассчитать</button>
+  </div>
 
-  <div class="result" id="result"></div>
+  <div class="card result hidden" id="result"></div>
+
+  <footer class="footer">
+    <span>Версия: <b>1.0.0</b></span>
+    <span>Создатель: <b>Void @OpenProgrammer</b></span>
+  </footer>
 </div>
 
 <script type="module" src="app.js"></script>
