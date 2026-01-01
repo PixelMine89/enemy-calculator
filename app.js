@@ -53,7 +53,7 @@ window.calculate = function () {
   const recommendedAttack = Math.ceil(maxDef * 95);
 
   resultDiv.classList.remove('hidden');
-  resultDiv.innerHTML = 
+  resultDiv.innerHTML = `
     <div>
       🛡 <b>Ожидаемая защита</b><br>
       ${minDef.toLocaleString()} – ${maxDef.toLocaleString()}
@@ -73,5 +73,6 @@ window.calculate = function () {
       рассчитанным путём точной сборки отряда из реальных юнитов данной расы
       при заданной суммарной мощности.
     </div>
-  ;
+  `;
 };
+
