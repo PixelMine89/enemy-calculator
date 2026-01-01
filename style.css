@@ -1,0 +1,35 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: #eee;
+  padding: 40px;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  background: #1c1c1c;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+select, input, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background: #222;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+button {
+  cursor: pointer;
+  background: #3b82f6;
+  border: none;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 18px;
+}
