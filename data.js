@@ -8,6 +8,7 @@ export const enemyUnits = {
   trolls: [
     { name: "Тролль", power: 6, defense: 50 },
     { name: "Тролль-воин", power: 12, defense: 110 },
-    { name: "Не указан", power: 999, defense: 999 }
+    { name: "Тролль-убийца", power: 19, defense: 190 }
   ]
 };
+
