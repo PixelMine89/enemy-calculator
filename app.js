@@ -59,12 +59,12 @@ window.calculate = function () {
   const minDef = Math.round(base * minError);
   const maxDef = Math.round(base * maxError);
 
-  const recommendedAttack = Math.ceil(maxDef * 0.95);
+  const recommendedAttack = Math.ceil(maxDef * 95);
 
   resultDiv.classList.remove('hidden');
   resultDiv.innerHTML = `
     <div>
-      🛡 <b>Ожидаемая защита</b><br>
+      🛡️ <b>Ожидаемая защита</b><br>
       ${minDef.toLocaleString()} – ${maxDef.toLocaleString()}
     </div>
     <br>
@@ -74,3 +74,4 @@ window.calculate = function () {
     </div>
   `;
 };
+
