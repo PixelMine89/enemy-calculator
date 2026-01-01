@@ -1,77 +1,77 @@
-import { enemyData } from './data.js';
+import { enemyUnits } from './data.js';
 
 const raceSelect = document.getElementById('race');
 const resultDiv = document.getElementById('result');
 
-// Заполнение списка рас
-for (const race in enemyData) {
+// Заполняем список рас
+for (const race in enemyUnits) {
   const option = document.createElement('option');
   option.value = race;
   option.textContent = race;
   raceSelect.appendChild(option);
 }
 
-// Логарифмическая регрессия
-function regression(data) {
-  let n = data.length;
-  let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
-
-  for (const p of data) {
-    const x = Math.log(p.power);
-    const y = Math.log(p.defense);
-
-    sumX += x;
-    sumY += y;
-    sumXY += x * y;
-    sumX2 += x * x;
-  }
-
-  const B = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-  const A = Math.exp((sumY - B * sumX) / n);
-
-  return { A, B };
-}
-
 window.calculate = function () {
   const race = raceSelect.value;
-  const power = Number(document.getElementById('power').value);
+  const targetPower = Number(document.getElementById('power').value);
 
-  if (!power || power <= 0) {
+  if (!targetPower || targetPower <= 0) {
     resultDiv.classList.remove('hidden');
     resultDiv.innerHTML = 'Введите корректное значение мощи';
     return;
   }
 
-  const data = enemyData[race];
-  const model = regression(data);
+  const units = enemyUnits[race];
 
-  let minError = Infinity;
-  let maxError = -Infinity;
+  // DP: точная сборка мощности
+  const dpMin = Array(targetPower + 1).fill(Infinity);
+  const dpMax = Array(targetPower + 1).fill(-Infinity);
 
-  for (const p of data) {
-    const predicted = model.A * Math.pow(p.power, model.B);
-    const error = p.defense / predicted;
-    minError = Math.min(minError, error);
-    maxError = Math.max(maxError, error);
+  dpMin[0] = 0;
+  dpMax[0] = 0;
+
+  for (let p = 1; p <= targetPower; p++) {
+    for (const u of units) {
+      if (p >= u.power && dpMin[p - u.power] !== Infinity) {
+        dpMin[p] = Math.min(dpMin[p], dpMin[p - u.power] + u.defense);
+        dpMax[p] = Math.max(dpMax[p], dpMax[p - u.power] + u.defense);
+      }
+    }
   }
 
-  const base = model.A * Math.pow(power, model.B);
-  const minDef = Math.round(base * minError);
-  const maxDef = Math.round(base * maxError);
+  if (dpMin[targetPower] === Infinity) {
+    resultDiv.classList.remove('hidden');
+    resultDiv.innerHTML =
+      'Невозможно собрать указанную мощь из доступных юнитов';
+    return;
+  }
 
+  const minDef = dpMin[targetPower];
+  const maxDef = dpMax[targetPower];
+
+  // 🔥 ВЕРНУЛИ РАСЧЁТ АТАКИ
   const recommendedAttack = Math.ceil(maxDef * 95);
 
   resultDiv.classList.remove('hidden');
-  resultDiv.innerHTML = `
+  resultDiv.innerHTML = 
     <div>
-      🛡️ <b>Ожидаемая защита</b><br>
+      🛡 <b>Ожидаемая защита</b><br>
       ${minDef.toLocaleString()} – ${maxDef.toLocaleString()}
     </div>
+
     <br>
+
     <div>
       ⚔️ <b>Рекомендуемая атака</b><br>
       больше ${recommendedAttack.toLocaleString()}
     </div>
-  `;
-};
 
+    <br>
+
+    <div style="font-size:13px; opacity:0.75;">
+      ℹ️ Диапазон защиты является <b>гарантированным минимумом и максимумом</b>,
+      рассчитанным путём точной сборки отряда из реальных юнитов данной расы
+      при заданной суммарной мощности.
+    </div>
+  ;
+};
